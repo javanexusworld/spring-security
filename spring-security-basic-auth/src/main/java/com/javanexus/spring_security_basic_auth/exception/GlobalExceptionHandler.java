@@ -10,7 +10,7 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(WeatherAPIException.class)
-    public ProblemDetail handleException(WeatherAPIException e){
+    public ProblemDetail handleException(WeatherAPIException e) {
         ProblemDetail problemDetail =
                 ProblemDetail.forStatus(HttpStatus.BAD_GATEWAY);
         problemDetail.setTitle("Weather API Error");

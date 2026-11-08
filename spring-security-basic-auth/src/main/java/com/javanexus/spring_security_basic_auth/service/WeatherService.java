@@ -19,8 +19,9 @@ public class WeatherService {
     @Value("${weather.api.key}")
 
     private String apiKey;
+
     public Mono<WeatherResponse> getCurrentWeather(String city) {
-        if(city.contains("Hyderabad")){
+        if (city.contains("Hyderabad")) {
             throw new WeatherAPIException("API is down");
         }
         return weatherWebClient.get()

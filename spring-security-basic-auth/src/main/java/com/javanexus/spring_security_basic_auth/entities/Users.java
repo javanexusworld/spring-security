@@ -9,17 +9,17 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name="users",schema = "security")
+@Table(name = "users", schema = "security")
 public class Users implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name="user_name")
+    @Column(name = "user_name")
     private String userName;
-    @Column(name="password")
+    @Column(name = "password")
     private String password;
-    @Column(name="role")
+    @Column(name = "role")
     private String role;
 
 
@@ -48,6 +48,10 @@ public class Users implements UserDetails {
         return password;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public String getUsername() {
         return userName;
@@ -71,10 +75,6 @@ public class Users implements UserDetails {
     @Override
     public boolean isEnabled() {
         return UserDetails.super.isEnabled();
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getRole() {
