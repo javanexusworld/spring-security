@@ -26,12 +26,12 @@ public class WeatherController {
 
     // Get current weather by city
     @GetMapping("/current/{city}")
-    public Mono<WeatherResponse> getCurrentWeather(
+    public ResponseEntity<WeatherResponse> getCurrentWeather(
             @PathVariable
             @NotBlank(message = "City cannot be empty")
             String city) {
 
-        return weatherService.getCurrentWeather(city);
+        return ResponseEntity.ok(weatherService.getCurrentWeather(city));
     }
 
     // Get weather forecast by city
@@ -49,11 +49,11 @@ public class WeatherController {
 
     // Search weather by city
     @GetMapping("/search")
-    public Mono<WeatherResponse> searchWeather(
+    public ResponseEntity<WeatherResponse> searchWeather(
             @RequestParam
             @NotBlank(message = "City is required")
             String city) {
-        return weatherService.getCurrentWeather(city);
+        return ResponseEntity.ok(weatherService.getCurrentWeather(city));
 
     }
 

@@ -28,7 +28,7 @@ public class WeatherService {
     @Autowired
     private WeatherReportRepository repository;
 
-    public Mono<WeatherResponse> getCurrentWeather(String city) {
+    public WeatherResponse getCurrentWeather(String city) {
         return weatherWebClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/data/2.5/weather")
@@ -67,7 +67,8 @@ public class WeatherService {
                 .doOnSuccess(response ->
                         System.out.println("Weather response mapped successfully"))
                 .doOnError(error ->
-                        System.out.println("Service exception: " + error));
+                        System.out.println("Service exception: " + error))
+                .block();
     }
 
     public ForecastResponse getForecast(String city) {

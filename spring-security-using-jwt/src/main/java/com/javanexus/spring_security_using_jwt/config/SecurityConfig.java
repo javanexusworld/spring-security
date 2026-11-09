@@ -28,6 +28,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) {
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
+                .headers(headers->headers.frameOptions(frame->frame.sameOrigin()))
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/auth/**").permitAll()
                         .requestMatchers(HttpMethod.GET,"/api/weather/**").hasAuthority(Permission.WEATHER_READ.name())
                         .requestMatchers(HttpMethod.GET,"/api/weather/forecast/**").hasAuthority(Permission.WEATHER_READ.name())
