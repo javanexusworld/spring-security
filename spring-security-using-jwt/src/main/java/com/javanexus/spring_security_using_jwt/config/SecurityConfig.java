@@ -28,13 +28,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) {
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
-                .headers(headers->headers.frameOptions(frame->frame.sameOrigin()))
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/auth/**").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/api/weather/**").hasAuthority(Permission.WEATHER_READ.name())
-                        .requestMatchers(HttpMethod.GET,"/api/weather/forecast/**").hasAuthority(Permission.WEATHER_READ.name())
-                        .requestMatchers(HttpMethod.GET,"/api/weather/current/**").hasAuthority(Permission.WEATHER_READ.name())
-                        .requestMatchers(HttpMethod.POST,"/api/weather/**").hasAuthority(Permission.WEATHER_WRITE.name())
-                        .requestMatchers(HttpMethod.DELETE,"/api/weather/**").hasAuthority(Permission.WEATHER_DELETE.name())
+                //.headers(headers->headers.frameOptions(frame->frame.sameOrigin()))
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/auth/**","/api/users/register").permitAll()
+                      //  .requestMatchers(HttpMethod.GET,"/api/weather/**").hasAuthority(Permission.WEATHER_READ.name())
+                     //   .requestMatchers(HttpMethod.GET,"/api/weather/forecast/**").hasAuthority(Permission.WEATHER_READ.name())
+                      //  .requestMatchers(HttpMethod.GET,"/api/weather/current/**").hasAuthority(Permission.WEATHER_READ.name())
+                      //  .requestMatchers(HttpMethod.POST,"/api/weather/**").hasAuthority(Permission.WEATHER_WRITE.name())
+                      //  .requestMatchers(HttpMethod.DELETE,"/api/weather/**").hasAuthority(Permission.WEATHER_DELETE.name())
                         .anyRequest().authenticated());
 
         // .httpBasic(Customizer.withDefaults());
@@ -45,11 +45,6 @@ public class SecurityConfig {
     @Bean
     public UserDetailsService userDetailsService() {
         return new UserService();
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 
     @Bean

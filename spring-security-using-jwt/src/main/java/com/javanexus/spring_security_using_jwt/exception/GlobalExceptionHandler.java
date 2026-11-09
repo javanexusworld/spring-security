@@ -41,5 +41,17 @@ public class GlobalExceptionHandler {
         return problemDetail;
     }
 
+    @ExceptionHandler(UserAlreadyRegisteredException.class)
+    public ProblemDetail handleUserAlreadyRegisteredException(UserAlreadyRegisteredException exception) {
+        ProblemDetail problemDetail =
+                ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+        problemDetail.setTitle("User already registered ");
+        problemDetail.setDetail(exception.getMessage());
+        problemDetail.setProperty("service", "Weather Service");
+        return problemDetail;
+    }
+
+
+
 
 }

@@ -8,6 +8,7 @@ import com.javanexus.spring_security_using_jwt.service.WeatherService;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
@@ -26,6 +27,7 @@ public class WeatherController {
 
     // Get current weather by city
     @GetMapping("/current/{city}")
+    @PreAuthorize("hasAuthority('WEATHER_READ')")
     public ResponseEntity<WeatherResponse> getCurrentWeather(
             @PathVariable
             @NotBlank(message = "City cannot be empty")
@@ -59,6 +61,7 @@ public class WeatherController {
 
     // CREATE
     @PostMapping
+    @PreAuthorize("hasAuthority('WEATHER_WRITE')")
     public ResponseEntity<WeatherReport> createWeatherReport(
             @RequestBody WeatherReport report) {
 
