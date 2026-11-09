@@ -6,7 +6,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users", schema = "security")
@@ -20,7 +23,8 @@ public class Users implements UserDetails {
     @Column(name = "password")
     private String password;
     @Column(name = "role")
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
 
     public Long getId() {
@@ -41,7 +45,13 @@ public class Users implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role));
+        Set<SimpleGrantedAuthority> simpleGrantedAuthoritySet= new HashSet<>();
+        simpleGrantedAuthoritySet.add(new SimpleGrantedAuthority("ROLE_"+role.name()));
+        Set<SimpleGrantedAuthority> grantedAuthorities = role.getPermissions().stream().map(permission ->
+                new SimpleGrantedAuthority(permission.name())).collect(Collectors.toSet());
+        simpleGrantedAuthoritySet.addAll(grantedAuthorities);
+        return simpleGrantedAuthoritySet;
+
     }
 
     public String getPassword() {
@@ -77,11 +87,11 @@ public class Users implements UserDetails {
         return UserDetails.super.isEnabled();
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 }

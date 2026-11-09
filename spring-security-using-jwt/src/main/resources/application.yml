@@ -24,7 +24,12 @@ server:
 weather:
   api:
     base-url: https://api.openweathermap.org
-    key: ${WEATHER_API_KEY:}
+    key: ${WEATHER_API_KEY:11d57ae2c75bcdfda7ff3c3e7e2a6ea1}
 jwt:
-  expiration: ${EXPIRATION_TIME:60000}
-  secret: ${JWT_SECRET:"my-super-secret-key-that-is-long-enough-123456789!@#"}
+  expiration: ${EXPIRATION_TIME:300000}
+  secret: ${JWT_SECRET:my-super-secret-key-that-is-long-enough-123456789!@#}
+
+logging:
+  level:
+    org.springframework.security: TRACE
+    org.springframework.web: DEBUG

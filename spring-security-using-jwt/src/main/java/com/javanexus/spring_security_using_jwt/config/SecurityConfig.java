@@ -1,10 +1,13 @@
 package com.javanexus.spring_security_using_jwt.config;
 
+import com.javanexus.spring_security_using_jwt.entities.Permission;
+import com.javanexus.spring_security_using_jwt.entities.Role;
 import com.javanexus.spring_security_using_jwt.filter.JWTAuthFilter;
 import com.javanexus.spring_security_using_jwt.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -26,7 +29,13 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) {
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/api/weather/**").hasAuthority(Permission.WEATHER_READ.name())
+                        .requestMatchers(HttpMethod.GET,"/api/weather/forecast/**").hasAuthority(Permission.WEATHER_READ.name())
+                        .requestMatchers(HttpMethod.GET,"/api/weather/current/**").hasAuthority(Permission.WEATHER_READ.name())
+                        .requestMatchers(HttpMethod.POST,"/api/weather/**").hasAuthority(Permission.WEATHER_WRITE.name())
+                        .requestMatchers(HttpMethod.DELETE,"/api/weather/**").hasAuthority(Permission.WEATHER_DELETE.name())
                         .anyRequest().authenticated());
+
         // .httpBasic(Customizer.withDefaults());
         httpSecurity.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();
